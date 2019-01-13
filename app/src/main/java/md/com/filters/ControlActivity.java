@@ -146,6 +146,7 @@ public class ControlActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_control);
+        Toast.makeText(ControlActivity.this,"Tap 'Center Image' to select images from Gallery'",Toast.LENGTH_LONG).show();
         DisplayMetrics displayMetrics=new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         mScreenHeight=displayMetrics.heightPixels;
@@ -323,20 +324,22 @@ public class ControlActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         if (doubleBackToExitPressedOnce) {
-             File directory = new File(Environment.getExternalStorageDirectory() + "/" + "Filters"+"/.Temp");
-            String[] myFiles;
-            myFiles = directory.list();
-            for (int i=0; i<myFiles.length; i++) {
-                File myFile = new File(directory, myFiles[i]);
-                myFile.delete();
-            }
-            directory.delete();
+           File directory = new File(Environment.getExternalStorageDirectory() + "/" + "Filters"+"/.Temp");
+             if(directory.list()!=null) {
+                 String[] myFiles;
+                 myFiles = directory.list();
+                 for (int i = 0; i < myFiles.length; i++) {
+                     File myFile = new File(directory, myFiles[i]);
+                     myFile.delete();
+                 }
+                 directory.delete();
+             }
             super.onBackPressed();
             return;
         }
 
         this.doubleBackToExitPressedOnce = true;
-        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Please click BACK again to exit",Toast.LENGTH_SHORT).show();
 
         new Handler().postDelayed(new Runnable() {
 
