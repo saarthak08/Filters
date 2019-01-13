@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Filters</string>
+    <string name="title_activity_control">ControlActivity</string>
+    <string name="title_activity_image_preview">ImagePreviewActivity</string>
+</resources>

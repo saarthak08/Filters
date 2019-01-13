@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:Filters="http://schemas.android.com/apk/res-auto" >
+    <item android:id="@+id/quality"
+        android:title="Quality"
+        android:enabled="true"
+        android:orderInCategory="100"
+        Filters:showAsAction="always" />
+    <item android:id="@+id/save"
+        android:title="Save To Gallery"
+        android:enabled="true"
+        android:orderInCategory="100"
+        Filters:showAsAction="always" />
+
+
+</menu>
