@@ -19,10 +19,6 @@ public class TransformImage {
     public static final int MAX_CONTRAST=10;
     public static final int MAX_SATURATION=5;
     public static final int MAX_VIGNETTE=255;
-    public static int BRIGHTNESS;
-    public static int CONTRAST;
-    public static int SATURATION;
-    public static int VIGNETTE;
     private Bitmap mBitmap;
     private Context mContext;
     private Bitmap brightnessFilterBitmap;
@@ -33,7 +29,6 @@ public class TransformImage {
     public static int FILTER_SATURATION=1;
     public static int FILTER_VIGNETTE=2;
     public static int FILTER_CONTRAST=3;
-
     public Bitmap getBitmap(int filter)
     {
         if(filter==FILTER_BRIGHTNESS)
@@ -63,9 +58,14 @@ public class TransformImage {
     {
         Filter myFilter = new Filter();
         Bitmap workingBitmap=Bitmap.createBitmap(mBitmap);
-        Bitmap mutableBitmap=workingBitmap.copy(Bitmap.Config.ARGB_8888,true);
+        Bitmap mutableBitmap=workingBitmap.copy(Bitmap.Config.RGB_565,true);
         myFilter.addSubFilter(new BrightnessSubFilter(a));
         Bitmap outputImage = myFilter.processFilter(mutableBitmap);
+        if(brightnessFilterBitmap!=null)
+        {
+            brightnessFilterBitmap.recycle();
+            brightnessFilterBitmap=null;
+        }
         brightnessFilterBitmap=outputImage;
         return outputImage;
     }
@@ -74,9 +74,14 @@ public class TransformImage {
     {
         Filter myFilter = new Filter();
         Bitmap workingBitmap=Bitmap.createBitmap(mBitmap);
-        Bitmap mutableBitmap=workingBitmap.copy(Bitmap.Config.ARGB_8888,true);
+        Bitmap mutableBitmap=workingBitmap.copy(Bitmap.Config.RGB_565,true);
         myFilter.addSubFilter(new SaturationSubFilter(a));
         Bitmap outputImage = myFilter.processFilter(mutableBitmap);
+        if(saturationFilterBitmap!=null)
+        {
+            saturationFilterBitmap.recycle();
+            saturationFilterBitmap=null;
+        }
         saturationFilterBitmap=outputImage;
         return outputImage;
     }
@@ -84,7 +89,7 @@ public class TransformImage {
     {
         Filter myFilter = new Filter();
         Bitmap workingBitmap=Bitmap.createBitmap(mBitmap);
-        Bitmap mutableBitmap=workingBitmap.copy(Bitmap.Config.ARGB_8888,true);
+        Bitmap mutableBitmap=workingBitmap.copy(Bitmap.Config.RGB_565,true);
         if(a==MIN_CONTRAST) {
             myFilter.addSubFilter(new ContrastSubFilter(0.9f));
         }
@@ -92,6 +97,11 @@ public class TransformImage {
             myFilter.addSubFilter(new ContrastSubFilter((0.5f * a)));
         }
         Bitmap outputImage = myFilter.processFilter(mutableBitmap);
+        if(contrastFilterBitmap!=null)
+        {
+            contrastFilterBitmap.recycle();
+            contrastFilterBitmap=null;
+        }
         contrastFilterBitmap=outputImage;
         return outputImage;
     }
@@ -99,9 +109,14 @@ public class TransformImage {
     {
         Filter myFilter = new Filter();
         Bitmap workingBitmap=Bitmap.createBitmap(mBitmap);
-        Bitmap mutableBitmap=workingBitmap.copy(Bitmap.Config.ARGB_8888,true);
+        Bitmap mutableBitmap=workingBitmap.copy(Bitmap.Config.RGB_565,true);
         myFilter.addSubFilter(new VignetteSubFilter(mContext,a));
         Bitmap outputImage = myFilter.processFilter(mutableBitmap);
+        if(vignetteFilterBitmap!=null)
+        {
+            vignetteFilterBitmap.recycle();
+            vignetteFilterBitmap=null;
+        }
         vignetteFilterBitmap=outputImage;
         return outputImage;
     }

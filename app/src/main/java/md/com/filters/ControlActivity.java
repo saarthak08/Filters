@@ -1,4 +1,5 @@
 package md.com.filters;
+
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -20,16 +21,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.SeekBar;
-import android.widget.TextView;
 import android.widget.Toast;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
+
 
 import java.io.File;
 
@@ -61,27 +61,49 @@ public class ControlActivity extends AppCompatActivity {
     SeekBar seekBar;
     Uri selectedImageUri;
     File file;
-    public static Bitmap bitmap2;
+    public static Bitmap bitmap2,bitmap6;
     public static String filename;
     Target mSmallTarget= new Target() {
         @Override
         public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
             mTransformImage =new TransformImage(ControlActivity.this,bitmap);
-            mTransformImage.applyBrightnessFilter(mTransformImage.DEFAULT_BRIGHTNESS);
+            Bitmap bitmap5= mTransformImage.applyBrightnessFilter(mTransformImage.DEFAULT_BRIGHTNESS);
+            mFirstImage.setImageDrawable(null);
+            mFirstImage.setImageBitmap(null);
             Helper.writeDataIntoExternalStorage(ControlActivity.this, filename+"_brightness.jpeg", mTransformImage.getBitmap(mTransformImage.FILTER_BRIGHTNESS));
-            Picasso.get().load(Helper.getFileFromExternalStorage(ControlActivity.this, filename+"_brightness.jpeg")).fit().centerInside().into(mFirstImage);
-
-            mTransformImage.applySaturationFilter(mTransformImage.DEFAULT_SATURATION);
+            Picasso.get().load(Helper.getImageUri(ControlActivity.this,bitmap5)).fit().centerInside().into(mFirstImage);
+            if(bitmap5!=null)
+            {
+                bitmap5.recycle();
+                bitmap5=null;
+            }
+            mSecondImage.setImageBitmap(null);
+            mSecondImage.setImageDrawable(null);
+            bitmap5=mTransformImage.applySaturationFilter(mTransformImage.DEFAULT_SATURATION);
             Helper.writeDataIntoExternalStorage(ControlActivity.this, filename+"_saturation.jpeg", mTransformImage.getBitmap(mTransformImage.FILTER_SATURATION));
-            Picasso.get().load(Helper.getFileFromExternalStorage(ControlActivity.this, filename+"_saturation.jpeg")).fit().centerInside().into(mSecondImage);
+            Picasso.get().load(Helper.getImageUri(ControlActivity.this,bitmap5)).fit().centerInside().into(mSecondImage);
 
-            mTransformImage.applyContrastFilter(mTransformImage.DEFAULT_CONTRAST);
+            if(bitmap5!=null)
+            {
+                bitmap5.recycle();
+                bitmap5=null;
+            }
+            mThirdImage.setImageBitmap(null);
+            mThirdImage.setImageDrawable(null);
+            bitmap5=mTransformImage.applyContrastFilter(mTransformImage.DEFAULT_CONTRAST);
             Helper.writeDataIntoExternalStorage(ControlActivity.this, filename+"_contrast.jpeg", mTransformImage.getBitmap(mTransformImage.FILTER_CONTRAST));
-            Picasso.get().load(Helper.getFileFromExternalStorage(ControlActivity.this, filename+"_contrast.jpeg")).fit().centerInside().into(mThirdImage);
+            Picasso.get().load(Helper.getImageUri(ControlActivity.this,bitmap)).fit().centerInside().into(mThirdImage);
 
-            mTransformImage.applyVignetteFilter(mTransformImage.DEFAULT_VIGNETTE);
+            if(bitmap5!=null)
+            {
+                bitmap5.recycle();
+                bitmap5=null;
+            }
+            mFourthImage.setImageBitmap(null);
+            mFourthImage.setImageDrawable(null);
+            bitmap5=mTransformImage.applyVignetteFilter(mTransformImage.DEFAULT_VIGNETTE);
             Helper.writeDataIntoExternalStorage(ControlActivity.this, filename+"_vignette.jpeg", mTransformImage.getBitmap(mTransformImage.FILTER_VIGNETTE));
-            Picasso.get().load(Helper.getFileFromExternalStorage(ControlActivity.this, filename+"_vignette.jpeg")).fit().centerInside().into(mFourthImage);
+            Picasso.get().load(Helper.getImageUri(ControlActivity.this,bitmap)).fit().centerInside().into(mFourthImage);
         }
 
         @Override
@@ -102,26 +124,78 @@ public class ControlActivity extends AppCompatActivity {
             TransformImage mProgressedImage=new TransformImage(ControlActivity.this,bitmap);
             if(flag==1)
             {
+                if(bitmap2!=null)
+                {
+                    bitmap2.recycle();
+                    bitmap2=null;
+                }
+                if(bitmap6!=null)
+                {
+                    bitmap6.recycle();
+                    bitmap6=null;
+                }
                 bitmap2 = mProgressedImage.applyBrightnessFilter(filter);
+                bitmap6=Bitmap.createScaledBitmap(bitmap2,mScreenWidth,mScreenHeight*7/12,true);
+                mCenterImage.setImageDrawable(null);
+                mCenterImage.setImageBitmap(null);
                 mCenterImage.setAdjustViewBounds(true);
                 mCenterImage.setImageBitmap(bitmap2);
             }
             else if(flag==2)
             {
+                if(bitmap2!=null)
+                {
+                    bitmap2.recycle();
+                    bitmap2=null;
+                }
+                if(bitmap6!=null)
+                {
+                    bitmap6.recycle();
+                    bitmap6=null;
+                }
                 bitmap2 = mProgressedImage.applySaturationFilter(filter);
+                bitmap2=Bitmap.createScaledBitmap(bitmap2,mScreenWidth,mScreenHeight*7/12,true);
+                mCenterImage.setImageDrawable(null);
+                mCenterImage.setImageBitmap(null);
                 mCenterImage.setAdjustViewBounds(true);
                 mCenterImage.setImageBitmap(bitmap2);
             }
             else if(flag==3)
             {
+                if(bitmap2!=null)
+                {
+                    bitmap2.recycle();
+                    bitmap2=null;
+                }
+                if(bitmap6!=null)
+                {
+                    bitmap6.recycle();
+                    bitmap6=null;
+                }
+                mCenterImage.setImageDrawable(null);
+                mCenterImage.setImageBitmap(null);
                 bitmap2 = mProgressedImage.applyContrastFilter(filter);
                 mCenterImage.setAdjustViewBounds(true);
+                bitmap2=Bitmap.createScaledBitmap(bitmap2,mScreenWidth,mScreenHeight*7/12,true);
                 mCenterImage.setImageBitmap(bitmap2);
             }
             else if(flag==4)
             {
+
+
+                if(bitmap2!=null)
+                {
+                    bitmap2.recycle();
+                    bitmap2=null;
+                }
+                if(bitmap6!=null)
+                {
+                    bitmap6.recycle();
+                    bitmap6=null;
+                }
                 bitmap2 = mProgressedImage.applyVignetteFilter(filter);
                 mCenterImage.setAdjustViewBounds(true);
+                bitmap2=Bitmap.createScaledBitmap(bitmap2,mScreenWidth,mScreenHeight*7/12,true);
                 mCenterImage.setImageBitmap(bitmap2);
             }
             else
@@ -146,7 +220,6 @@ public class ControlActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_control);
-        Toast.makeText(ControlActivity.this,"Tap 'Center Image' to select images from Gallery'",Toast.LENGTH_LONG).show();
         DisplayMetrics displayMetrics=new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         mScreenHeight=displayMetrics.heightPixels;
@@ -205,8 +278,12 @@ public class ControlActivity extends AppCompatActivity {
                 if(flag2==1) {
                     seekBar.setMax(mTransformImage.MAX_BRIGHTNESS);
                     seekBar.setProgress(mTransformImage.DEFAULT_BRIGHTNESS);
+                    mCenterImage.setImageBitmap(null);
+                    mCenterImage.setImageDrawable(null);
                     Picasso.get().load(Helper.getFileFromExternalStorage(ControlActivity.this, filename + "_brightness.jpeg")).resize(0, mScreenHeight * 7 / 12).into(mCenterImage); }
-                }
+                    else
+                    Toast.makeText(ControlActivity.this,"Tap on 'Center Image' to select image from Gallery",Toast.LENGTH_SHORT).show();
+            }
         });
         mSecondImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -215,7 +292,11 @@ public class ControlActivity extends AppCompatActivity {
                 if(flag2==1){
                 seekBar.setMax(mTransformImage.MAX_SATURATION);
                 seekBar.setProgress(mTransformImage.DEFAULT_SATURATION);
+                    mCenterImage.setImageBitmap(null);
+                    mCenterImage.setImageDrawable(null);
                 Picasso.get().load(Helper.getFileFromExternalStorage(ControlActivity.this,filename+"_saturation.jpeg")).resize(0,mScreenHeight*7/12).into(mCenterImage);}
+                else
+                    Toast.makeText(ControlActivity.this,"Tap on 'Center Image' to select image from Gallery",Toast.LENGTH_SHORT).show();
             }
         });
         mThirdImage.setOnClickListener(new View.OnClickListener() {
@@ -227,7 +308,11 @@ public class ControlActivity extends AppCompatActivity {
                 seekBar.setMax(mTransformImage.MAX_CONTRAST);
               //  seekBar.setMin(mTransformImage.MIN_CONTRAST);
                 seekBar.setProgress(mTransformImage.DEFAULT_CONTRAST);
+                    mCenterImage.setImageBitmap(null);
+                    mCenterImage.setImageDrawable(null);
                 Picasso.get().load(Helper.getFileFromExternalStorage(ControlActivity.this,filename+"_contrast.jpeg")).resize(0,mScreenHeight*7/12).into(mCenterImage);}
+                else
+                    Toast.makeText(ControlActivity.this,"Tap on 'Center Image' to select image from Gallery",Toast.LENGTH_SHORT).show();
             }
         });
         mFourthImage.setOnClickListener(new View.OnClickListener() {
@@ -237,7 +322,11 @@ public class ControlActivity extends AppCompatActivity {
                 if(flag2==1){
                 seekBar.setMax(mTransformImage.MAX_VIGNETTE);
                 seekBar.setProgress(mTransformImage.DEFAULT_VIGNETTE);
+                    mCenterImage.setImageBitmap(null);
+                    mCenterImage.setImageDrawable(null);
                 Picasso.get().load(Helper.getFileFromExternalStorage(ControlActivity.this,filename+"_vignette.jpeg")).resize(0,mScreenHeight*7/12).into(mCenterImage);}
+                else
+                    Toast.makeText(ControlActivity.this,"Tap on 'Center Image' to select image from Gallery",Toast.LENGTH_SHORT).show();
             }
         });
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -246,6 +335,9 @@ public class ControlActivity extends AppCompatActivity {
                 if(flag!=0) {
                     filter=progress;
                     Picasso.get().load(selectedImageUri).into(mTarget);
+                }
+                if(flag2!=1) {
+                    Toast.makeText(ControlActivity.this, "Tap on 'Center Image' to select image from Gallery", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -281,7 +373,8 @@ public class ControlActivity extends AppCompatActivity {
            flag2=1;
            file=new File(selectedImageUri.getPath());
            filename=file.getName();
-           Picasso.get().load(selectedImageUri).resize(0,mScreenHeight*7/12).into(mCenterImage);
+           mCenterImage.setImageDrawable(null);
+           Picasso.get().load(selectedImageUri).resize(0,mScreenHeight/2).into(mCenterImage);
            Picasso.get().load(selectedImageUri).into(mSmallTarget);
        }
    }

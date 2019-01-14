@@ -2,13 +2,13 @@ package md.com.filters.Utility;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Environment;
-import android.widget.Toast;
-
+import android.provider.MediaStore;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-
 import md.com.filters.ControlActivity;
 import md.com.filters.ImagePreviewActivity;
 import md.com.filters.R;
@@ -30,8 +30,8 @@ public class Helper {
         try
         {
             FileOutputStream fileOutputStream=new FileOutputStream(image);
-            return bitmap.compress(Bitmap.CompressFormat.JPEG,100, fileOutputStream);
-
+            bitmap.compress(Bitmap.CompressFormat.JPEG,100, fileOutputStream);
+            return true;
         }
         catch (FileNotFoundException e)
         {
@@ -80,5 +80,11 @@ public class Helper {
         {
             e.printStackTrace();
         }
+    }
+    public static Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
     }
 }
