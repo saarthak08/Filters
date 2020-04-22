@@ -226,7 +226,7 @@ public class ControlActivity extends AppCompatActivity {
         mScreenWidth=displayMetrics.widthPixels;
         controlmToolbar=(Toolbar)findViewById(R.id.toolbar2);
         controlmToolbar.setTitle(getString(R.string.app_name));
-        controlmToolbar.setNavigationIcon(R.mipmap.icon);
+        controlmToolbar.setNavigationIcon(R.mipmap.ic_launcher);
         mTickImageView=(ImageView)findViewById(R.id.imageView9);
         mFirstImage=(ImageView)findViewById(R.id.imageView2);
         mSecondImage=(ImageView)findViewById(R.id.imageView3);

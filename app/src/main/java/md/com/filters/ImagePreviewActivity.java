@@ -47,7 +47,7 @@ public class ImagePreviewActivity extends AppCompatActivity {
         dropDownMenu.getMenuInflater().inflate(R.menu.menu_main, menu);
         controlmToolbar=(Toolbar)findViewById(R.id.toolbar);
         controlmToolbar.setTitle(getString(R.string.app_name));
-        controlmToolbar.setNavigationIcon(R.mipmap.icon);
+        controlmToolbar.setNavigationIcon(R.mipmap.ic_launcher);
         mCenterImage=(ImageView)findViewById(R.id.imageView);
         mCenterImage.setAdjustViewBounds(true);
         File s=new File(Helper.fileS);
